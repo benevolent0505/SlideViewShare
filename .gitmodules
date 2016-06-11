@@ -1,0 +1,3 @@
+[submodule "IED-env-setup"]
+	path = IED-env-setup
+	url = ssh://git@gitlab.mma.club.uec.ac.jp:2223/benevolent0505/IED-env-setup.git
