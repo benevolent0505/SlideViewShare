@@ -19,11 +19,22 @@
           <!-- Add spacer, to align navigation to the right -->
           <div class="mdl-layout-spacer"></div>
           <!-- Navigation. We hide it in small screens. -->
-          <nav class="mdl-navigation mdl-layout--large-screen-only"
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
             <a class="mdl-navigation__link" href="/slides">Discovery</a>
-            <a class="mdl-navigation__link" href="/upload">Upload</a>
-            <% if @user %>
+            <a class="mdl-navigation__link" href="/slides/new">Upload</a>
+            <% if @session_user %>
+              <!-- Right aligned menu below button -->
+              <button id="account-menu-lower-right"
+                      class="mdl-button mdl-js-button mdl-button--icon">
+                <i class="material-icons">more_vert</i>
+              </button>
 
+              <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                  for="account-menu-lower-right">
+                <a class="mdl-menu__item" href="/users/<%= @session_user.username %>">My Slides</a>
+                <a class="mdl-menu__item" href="#"> Account Settings</a>
+                <a class="mdl-menu__item" href="/signout">Sign out</a>
+              </ul>
             <% else %>
               <a class="mdl-navigation__link" href="/signup">Sing up</a>
               <a class="mdl-navigation__link" href="/signin">Sign in</a>

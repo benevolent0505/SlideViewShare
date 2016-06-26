@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require 'active_record'
 
 require './models/users'
+# require './models/slides'
 
 enable :sessions
 use Rack::Session::Cookie
@@ -10,7 +11,7 @@ use Rack::Session::Cookie
 get '/' do
   @page_title = 'Side View Share'
   if session[:user_id]
-    @user = User.find_by_id(session[:user_id])
+    @session_user = User.find_by_id(session[:user_id])
   end
 
   erb :index
@@ -22,6 +23,30 @@ post '/users/create' do
 
   session[:user_id] = user.id
   redirect '/'
+end
+
+get '/users/:username' do
+  @page_title = "#{params[:username]}'s slides"
+  @user = User.find_by username: params[:username]
+  if session[:user_id]
+    @session_user = User.find_by_id(session[:user_id])
+  end
+
+  erb :user
+end
+
+get '/slides/new' do
+  @page_title = 'Slide Upload Page'
+  if session[:user_id]
+    @session_user = User.find_by_id(session[:user_id])
+  else
+    redirect '/signin'
+  end
+
+  erb :upload
+end
+
+post '/slides/new' do
 end
 
 get '/signup' do
@@ -45,6 +70,6 @@ post '/signin' do
 end
 
 get '/signout' do
-
+  session.clear
   redirect '/'
 end
