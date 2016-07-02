@@ -16,5 +16,5 @@ PHPでWebアプリを作る課題で作ってるもの.
 $ mkdir ~/public_html
 $ cd ~/public_html
 $ git clone git@github.com:benevolent0505/SlideViewShare.git
-$ mv SlideViewShare/php .
+$ mv SlideViewShare/php/* .
 ```
