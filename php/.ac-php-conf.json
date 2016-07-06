@@ -1,0 +1,13 @@
+{
+  "use-cscope": false,
+  "filter": {
+    "php-file-ext-list": [
+      "php"
+    ],
+    "php-path-list": [
+        "./app",
+        "./vendor/twig/twig/lib/Twig"
+    ],
+    "php-path-list-without-subdir": []
+  }
+}
