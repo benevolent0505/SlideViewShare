@@ -4,14 +4,15 @@ namespace SlideViewShare;
 class Response {
   public $method;
   public $split_path;
+  public $param_pos;
   public $params;
   public $controller;
   public $controller_method;
 
-  public function __construct($method, $split_path, $params, $controller_name, $controller_method) {
+  public function __construct($method, $split_path, $param_pos, $controller_name, $controller_method) {
     $this->method = $method;
     $this->split_path = $split_path;
-    $this->params = $params;
+    $this->param_pos = $param_pos;
     $this->controller_name = $controller_name;
     $this->controller_method = $controller_method;
 
@@ -28,18 +29,30 @@ class Response {
 
     foreach ($request->split_path as $index => $path) {
       if ($this->split_path[$index] !== $path) {
-        return false;
+        if (isset($this->param_pos[$index])) {
+          continue;
+        } else {
+          return false;
+        }
       }
     }
 
     return true;
   }
 
+  public function setParams(array $split_path) {
+    foreach ($split_path as $index => $path) {
+      if ($this->split_path[$index] !== $path) {
+        $this->params = $path;
+      }
+    }
+  }
+
   public static function create($method, $path, $controller_name, $controller_method) {
     $split_path = self::parsePath($path);
-    $params = self::setParams($split_path);
+    $param_pos = self::setParamPos($split_path);
 
-    return new Response($method, $split_path, $params, $controller_name, $controller_method);
+    return new Response($method, $split_path, $param_pos, $controller_name, $controller_method);
   }
 
   public static function parsePath($path) {
@@ -49,14 +62,14 @@ class Response {
     return $tmp_arr;
   }
 
-  public static function setParams($split_path) {
-    $params = array();
+  public static function setParamPos($split_path) {
+    $param_pos = array();
     foreach ($split_path as $index => $path) {
       if (strpos($path, ':') !== false) {
-        $params[] = array($index => substr($path, 1));
+        $param_pos[$index] = substr($path, 1);
       }
     }
 
-    return $params;
+    return $param_pos;
   }
 }
