@@ -4,12 +4,14 @@ namespace SlideViewShare;
 class Request {
   public $request_method;
   public $params;
+  public $request_params;
   public $split_path;
 
-  public function __construct(array $server) {
+  public function __construct(array $server, array $request) {
     $this->request_method = $server['REQUEST_METHOD'];
     $this->split_path = $this->parsePathInfo($server['PATH_INFO']);
     $this->params = $this->parseQuery($server['QUERY_STRING']);
+    $this->request_params = $request;
   }
 
   public function getMethod() {

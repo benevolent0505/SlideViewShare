@@ -40,11 +40,17 @@ class Response {
     return true;
   }
 
-  public function setParams(array $split_path) {
-    foreach ($split_path as $index => $path) {
-      if ($this->split_path[$index] !== $path) {
-        $this->params = $path;
+  public function setParams(array $split_path, array $request_params) {
+    $method = $this->method;
+
+    if ($method == 'GET') {
+      foreach ($split_path as $index => $path) {
+        if ($this->split_path[$index] !== $path) {
+          $this->params = $path;
+        }
       }
+    } else if ($method == 'POST') {
+      $this->params = $request_params;
     }
   }
 

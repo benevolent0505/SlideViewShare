@@ -16,7 +16,7 @@ class Router {
   public function match($request) {
     foreach ($this->responses as $response) {
       if ($response->isMatch($request)) {
-        $response->setParams($request->split_path);
+        $response->setParams($request->split_path, $request->request_params);
         return $response;
       }
     }
