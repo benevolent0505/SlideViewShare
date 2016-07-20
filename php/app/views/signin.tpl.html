@@ -1,0 +1,20 @@
+{% extends "base.tpl.html" %}
+{% block title %}Sign in{% endblock %}
+
+{% block content %}
+
+<h1>Sign in</h1>
+
+<form action="./signin" method="post">
+  <input type="text" name="username">
+  <label for="username">User name</label>
+
+  <br>
+
+  <input type="password" name="password">
+  <label for="password">Password</label>
+
+  <br>
+  <input type="submit" value="Sign in">
+</form>
+{% endblock %}

@@ -19,4 +19,20 @@ class IndexController {
       return renderResponse('signup.tpl.html');
     };
   }
+
+  public function signin() {
+    return function () {
+      return renderResponse('signin.tpl.html');
+    };
+  }
+
+  public function logout() {
+    return function (array $params) {
+      session_start();
+
+      session_unset();
+      header('Location: ./');
+      exit();
+    };
+  }
 }

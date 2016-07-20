@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <title>Sign up</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <h1>Sign up</h1>
-  </body>
-</html>
+{% extends "base.tpl.html" %}
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+
+<h1>Sign up</h1>
+
+<form action="./users/create" method="post">
+  <input type="text" name="username">
+  <label for="username">User name</label>
+
+  <br>
+
+  <input type="password" name="password">
+  <label for="password">Password</label>
+
+  <br>
+
+  <input type="password" name="password_confirmation">
+  <label for="password_confirmation">Password confirmation</label>
+
+  <br>
+  <input type="submit" value="Sign up">
+</form>
+{% endblock %}
