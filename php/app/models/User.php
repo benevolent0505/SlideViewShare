@@ -14,9 +14,13 @@ class User {
 
   public $file;
 
-  public function __construct($username, $password) {
+  public function __construct($username, $password, $crypt_flag = true) {
     $this->username = $username;
-    $this->password = my_password_hash($password);
+    if ($crypt_flag) {
+      $this->password = my_password_hash($password);
+    } else {
+      $this->password = $password;
+    }
 
     $this->file = new DataManager('users', 'csv');
   }
@@ -29,10 +33,14 @@ class User {
 
   public static function find($username) {
     $value_arr =  DataManager::find('users', array('username', $username));
-    $user = new User($value_arr['username'], $value_arr['password']);
-    $user->id = $value_arr['id'];
+    if ($value_arr != null) {
+      $user = new User($value_arr['username'], $value_arr['password'], false);
+      $user->id = $value_arr['id'];
 
-    return $user;
+      return $user;
+    }
+
+    return null;
   }
 
   public function destroy() {
