@@ -6,20 +6,29 @@
 <h1>Sign up</h1>
 
 <form action="./users/create" method="post">
-  <input type="text" name="username">
-  <label for="username">User name</label>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="text" name="username" id="username">
+    <label class="mdl-textfield__label" for="username">User name ...</label>
+  </div>
 
   <br>
 
-  <input type="password" name="password">
-  <label for="password">Password</label>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="password" name="password" id="password">
+    <label class="mdl-textfield__label" for="password">Password ...</label>
+  </div>
 
   <br>
 
-  <input type="password" name="password_confirmation">
-  <label for="password_confirmation">Password confirmation</label>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="password" name="password_confirmation" id="password_confirmation">
+      <label class="mdl-textfield__label" for="password_confirmation">Password confirmation ...</label>
+    </div>
 
   <br>
-  <input type="submit" value="Sign up">
+
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+    Sign up
+  </button>
 </form>
 {% endblock %}
