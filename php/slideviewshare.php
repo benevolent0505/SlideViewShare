@@ -18,7 +18,10 @@ $routing_map[] = array(
   'GET', '/signin', array('IndexController', 'signin')
 );
 $routing_map[] = array(
-  'GET', '/logout', array('IndexController', 'logout')
+  'POST', '/sign_in', array('IndexController', 'sign_in')
+);
+$routing_map[] = array(
+  'GET', '/signout', array('IndexController', 'signout')
 );
 $routing_map[] = array(
   'POST', '/users/create', array('UsersController', 'create')
