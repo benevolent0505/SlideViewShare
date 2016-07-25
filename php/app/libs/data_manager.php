@@ -20,7 +20,6 @@ class DataManager {
     fseek($fp, 0, SEEK_END);
 
     fputcsv($fp, $data);
-    fputs($fp, "\n");
     fclose($fp);
   }
 
