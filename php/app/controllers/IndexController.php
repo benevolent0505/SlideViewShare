@@ -46,16 +46,22 @@ class IndexController {
       $password = array_shift($params);
 
       $user = User::find($username);
-      if (my_password_verify($password, $user->password)) {
-        // セッション処理
-        session_name('SLIDEVIEWSHARESESSID');
-        session_start();
-        session_regenerate_id(true);
-        $_SESSION['username'] = $username;
+      if ($user != null) {
+        if (my_password_verify($password, $user->password)) {
+          // セッション処理
+          session_name('SLIDEVIEWSHARESESSID');
+          session_start();
+          session_regenerate_id(true);
+          $_SESSION['username'] = $username;
 
-        header('Location: ./');
-        exit;
+          header('Location: ./');
+          exit;
+        }
       }
+
+      // 認証失敗
+      header('Location: ./signin');
+      exit;
     };
   }
 

@@ -33,10 +33,14 @@ class User {
 
   public static function find($username) {
     $value_arr =  DataManager::find('users', array('username', $username));
-    $user = new User($value_arr['username'], $value_arr['password'], false);
-    $user->id = $value_arr['id'];
+    if ($value_arr != null) {
+      $user = new User($value_arr['username'], $value_arr['password'], false);
+      $user->id = $value_arr['id'];
 
-    return $user;
+      return $user;
+    }
+
+    return null;
   }
 
   public function destroy() {

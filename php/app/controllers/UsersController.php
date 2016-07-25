@@ -32,6 +32,21 @@ class UsersController {
       $password = array_shift($params);
       $password_confirmation = array_shift($params);
 
+      // usernameが英数字以外の時の処理
+      if (!ctype_alnum($username)) {
+        header('Location: ../signup');
+        exit;
+      }
+      // usernameが被っていた場合の処理
+      if (User::find($username) != null) {
+        header('Location: ../signup');
+        exit;
+      }
+      // パスワードの長さが短い時の処理
+      if (strlen($password) < 7) {
+        header('Location: ../signup');
+        exit;
+      }
       // パスワード不一致の時の処理
       if ($password != $password_confirmation) {
         // flash message送信の実装
