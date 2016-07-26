@@ -4,7 +4,7 @@
   "description": "Slide View Share ===",
   "main": "index.js",
   "scripts": {
-    "build": "browserify ./public/javascript/slide.js -o ./public/javascript/build.js",
+    "build": "browserify ./public/javascript/slide-view.js -o ./public/javascript/build.js",
     "clean": "rm ./public/javascript/build.js"
   },
   "author": "benevolent0505",
@@ -13,6 +13,8 @@
     "browserify": "^13.1.0"
   },
   "dependencies": {
-    "pdf.js-controller": "^1.0.1"
+    "lodash.throttle": "^4.1.0",
+    "pdf.js-controller": "^1.0.1",
+    "pdfjs-dist": "^1.5.355"
   }
 }
