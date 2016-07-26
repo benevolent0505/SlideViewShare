@@ -24,6 +24,15 @@ $routing_map[] = array(
   'GET', '/signout', array('IndexController', 'signout')
 );
 $routing_map[] = array(
+  'GET', '/upload', array('SlidesController', 'upload')
+);
+$routing_map[] = array(
+  'POST', '/slides/create', array('SlidesController', 'create')
+);
+$routing_map[] = array(
+  'GET', '/slides/:id', array('SlidesController', 'show')
+);
+$routing_map[] = array(
   'POST', '/users/create', array('UsersController', 'create')
 );
 $routing_map[] = array(

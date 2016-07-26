@@ -1,0 +1,10 @@
+{% extends "base.tpl.html" %}
+{% block title %}{{ slide.title }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ slide.title }}</h1>
+
+<pre>{{ slide.description }}</pre>
+<p>{{ slide.path }}</p>
+{% endblock %}
