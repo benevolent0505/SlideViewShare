@@ -56,6 +56,12 @@ class SlidesController {
           $p = implode('/', $tmp);
           $abs_path = 'http://' . $_SERVER['HTTP_HOST'] . $p . '/db/slides/' .
            sha1_file($_FILES['slide']['tmp_name']) . '.pdf';
+
+          // サムネイル作成
+          exec("/usr/bin/convert " . $path . "[0] " . __DIR__ . "/../../db/thumb/hoge.png");
+
+          $thumb_path = __DIR__ . "/../../db/thumb/" . sha1_file($_FILES['slide']['tmp_name']) . '.png';
+
           $result = move_uploaded_file($_FILES['slide']['tmp_name'], $path);
 
           if (!$result) {
@@ -69,7 +75,7 @@ class SlidesController {
           $description = array_shift($params);
           $user_id = array_shift($params);
 
-          $slide = new Slide($user_id, $title, $description, $abs_path);
+          $slide = new Slide($user_id, $title, $description, $abs_path, $thumb_path);
           $slide->save();
 
           header('Location: ./' . $slide->id);
