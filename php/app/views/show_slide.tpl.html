@@ -1,10 +1,19 @@
 {% extends "base.tpl.html" %}
 {% block title %}{{ slide.title }}{% endblock %}
 
+{% block head %}
+  {{ parent() }}
+
+{% endblock %}
+
 {% block content %}
+<iframe id="main-slide"
+    src="{{ root ~ "/../public/static/index.html"}}?slide={{ slide.path }}"
+    scrolling="no"
+    allowtransparency="true"
+    width="100%"
+    height="700"
+    style="border:0;">
+</iframe>
 
-<h1>{{ slide.title }}</h1>
-
-<pre>{{ slide.description }}</pre>
-<p>{{ slide.path }}</p>
 {% endblock %}
