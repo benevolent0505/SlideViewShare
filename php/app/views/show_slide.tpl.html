@@ -1,10 +1,33 @@
 {% extends "base.tpl.html" %}
 {% block title %}{{ slide.title }}{% endblock %}
 
+{% block head %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ root ~ "/../" }}./node_modules/pdf.js-controller/css/pdf-slide.css">
+  <link rel="stylesheet" href="{{ root ~ "/../public" }}/css/slide.css">
+{% endblock %}
+
 {% block content %}
 
-<h1>{{ slide.title }}</h1>
+<div id="direct-link" style="display:none">{{ slide.path }}</div>
 
-<pre>{{ slide.description }}</pre>
-<p>{{ slide.path }}</p>
+<div id="pdf-container" class="pdf-page"></div>
+<div class="controls">
+  <div id="js-prev" class="arrow prev"></div>
+  <div id="js-next" class="arrow next"></div>
+</div>
+
+<iframe id="main-slide"
+            src="http://azu.github.io/slide-pdf.js/?slide=http://azu.github.io/slide/2015/year-end/pdf.js.pdf"
+            scrolling="no"
+            allowtransparency="true"
+            width="100%"
+            height="100%"
+            style="border:0;">
+    </iframe>
+
+{% block body_script %}
+  <script src="{{ root ~ "/../public" }}/javascript/build.js"></script>
+{% endblock %}
+
 {% endblock %}

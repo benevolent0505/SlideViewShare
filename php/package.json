@@ -1,0 +1,18 @@
+{
+  "name": "slideviewshare",
+  "version": "1.0.0",
+  "description": "Slide View Share ===",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify ./public/javascript/slide.js -o ./public/javascript/build.js",
+    "clean": "rm ./public/javascript/build.js"
+  },
+  "author": "benevolent0505",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^13.1.0"
+  },
+  "dependencies": {
+    "pdf.js-controller": "^1.0.1"
+  }
+}
