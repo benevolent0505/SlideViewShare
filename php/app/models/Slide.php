@@ -40,8 +40,27 @@ class Slide {
   }
 
   public function destroy() {
+    return DataManager::destroy('slides', array('id', $this->id));
   }
 
+  /**
+   * @return Array|null
+   */
   public static function all() {
+    $table = DataManager::all('slides');
+    $slides = array();
+
+    if ($table !=null) {
+      foreach ($table as $s) {
+        $slide = new Slide($s['user_id'], $s['title'], $s['description'], $s['path']);
+        $slide->id = $s['id'];
+
+        $slides[] = $slide;
+      }
+
+      return $slides;
+    }
+
+    return null;
   }
 }
