@@ -23,6 +23,31 @@ class DataManager {
     fclose($fp);
   }
 
+  /**
+   * @param String $table_name
+   * @param Array $value_tuple
+   */
+  public static function destroy($table_name, array $value_tuple) {
+    $file = self::getFile($table_name, "r");
+    $table = self::convertToTable($file);
+    $key = array_shift($value_tuple);
+    $value = array_shift($value_tuple);
+
+    $delete_i = null;
+    foreach ($table as $index => $row) {
+      if ($row[$key] == $value) {
+        $delete_i = $index;
+      }
+    }
+
+    if (isset($delete_i)) {
+      $path = $file->getRealPath();
+      $row_file = file($path);
+      unset($row_file[$delete_i]);
+      file_put_contents($path, $row_file, LOCK_EX);
+    }
+  }
+
   public static function find($table_name, array $value_tuple) {
     $file = self::getFile($table_name, "r");
     $table = self::convertToTable($file);
@@ -38,7 +63,13 @@ class DataManager {
     return null;
   }
 
-  public static function destroy($table_name, array $value_tuple) {
+  /**
+   * @param String $table_name
+   * @return Array | null
+   */
+  public static function all($table_name) {
+    $file = self::getFile($table_name, "r");
+    return $table = self::convertToTable($file);
   }
 
   public static function getFile($table_name, $open_mode) {
