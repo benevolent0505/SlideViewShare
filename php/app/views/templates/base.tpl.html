@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+  {% set root = 'http://' ~ server['HTTP_HOST'] ~ server['SCRIPT_NAME']|split('.')[0] %}
+  <head>
+    {% block head %}
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <title>{% block title %} Slide View Share{% endblock %}</title>
+
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+      <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    {% endblock %}
+  </head>
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">SlideViewShare</span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <!-- Navigation. We hide it in small screens. -->
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
+            <a class="mdl-navigation__link" href="{{ root}}/discovery">Discovery</a>
+            <a class="mdl-navigation__link" href="{{ root }}/upload">Upload</a>
+            {% if session_user %}
+              <a class="mdl-navigation__link" href="{{ root }}/">My Slides</a>
+              <a class="mdl-navigation__link" href="{{ root }}/account_settings">Account Settings</a>
+              <a class="mdl-navigation__link" href="{{ root }}/signout">Sign out</a>
+            {% else %}
+              <a class="mdl-navigation__link" href="{{ root }}/signin">Sign in</a>
+              <a class="mdl-navigation__link" href="{{ root }}/signup">Sign up</a>
+            {% endif %}
+          </nav>
+        </div>
+      </header>
+
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          {% block content %}{% endblock %}
+        </div>
+      </main>
+    </div>
+
+    {% block body_script %}
+    {% endblock %}
+  </body>
+</html>

@@ -12,6 +12,7 @@ class SlidesController {
   public function show() {
     return function ($slide_id) {
       $slide = Slide::find($slide_id);
+      $presenter = User::findBy(array('id', $slide->user_id));
 
       // セッション処理
       session_name('SLIDEVIEWSHARESESSID');
@@ -21,7 +22,8 @@ class SlidesController {
         $session_user = User::find($_SESSION['username']);
       }
 
-      return renderResponse('show_slide.tpl.html', array('session_user' => $session_user, 'slide' => $slide));
+      return renderResponse('show_slide.tpl.html', array('session_user' => $session_user,
+       'slide' => $slide, 'presenter' => $presenter));
     };
   }
 
