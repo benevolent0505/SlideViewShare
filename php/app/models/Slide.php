@@ -42,6 +42,24 @@ class Slide {
     return null;
   }
 
+  /**
+   * @param String $user_id
+   * @return Array
+   */
+  public static function findAllBy($user_id) {
+    $tmp_arr = DataManager::findAll('slides', array('user_id', $user_id));
+
+    $slides = array();
+    foreach ($tmp_arr as $row) {
+      $slide = new Slide($row['user_id'], $row['title'], $row['description'], $row['path'], $row['thumb_path']);
+      $slide->id = $row['id'];
+
+      $slides[] = $slide;
+    }
+
+    return $slides;
+  }
+
   public function destroy() {
     return DataManager::destroy('slides', array('id', $this->id));
   }
