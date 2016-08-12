@@ -70,18 +70,21 @@ class SlidesController {
 
         // スライドファイルの保存
         $upload_dst = __DIR__ . "/../../db/slides/";
-        $path = sprintf($upload_dst . "%s.%s", $filename, 'pdf');
-        $result = move_uploaded_file($_FILES['slide']['tmp_name'], $path);
+        $file_inner_path = sprintf($upload_dst . "%s.%s", $filename, 'pdf');
+        $result = move_uploaded_file($_FILES['slide']['tmp_name'], $file_inner_path);
         if (!$result) {
           throw new RuntimeException('ファイル保存時にエラーが発生しました');
         }
-        chmod($path, 0644);
+        chmod($file_inner_path, 0644);
         $file_path = $root_path . 'db/slides/' . $filename . '.pdf';
 
         // サムネイルの保存
-        $create_dst = __DIR__ . "/../../db/thumbs";
-        $path = sprintf($create_dst . "%s.%s", $filename, 'png');
-        $thumb_path = '';
+        $create_dst = __DIR__ . "/../../db/thumbs/";
+        $thumb_inner_path = sprintf($create_dst . "%s.%s", $filename, 'png');
+        $command = "convert ${file_inner_path}[0] ${thumb_inner_path}";
+        exec($command);
+        chmod($thumb_inner_path, 0644);
+        $thumb_path = $root_path . 'db/thumbs/' . $filename . '.png';
 
         // スライドデータの保存処理
         $title = array_shift($params);
