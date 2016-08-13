@@ -15,6 +15,7 @@ composer.phar
 
 *.csv
 *.pdf
+*.png
 ### https://raw.github.com/github/gitignore/8f35779cefbabdca21cfc4cda55abb1290d59fd9/Node.gitignore
 
 # Logs
@@ -54,5 +55,3 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
-
-

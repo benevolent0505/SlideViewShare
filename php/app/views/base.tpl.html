@@ -26,7 +26,7 @@
             <a class="mdl-navigation__link" href="{{ root}}/discovery">Discovery</a>
             <a class="mdl-navigation__link" href="{{ root }}/upload">Upload</a>
             {% if session_user %}
-              <a class="mdl-navigation__link" href="{{ root }}/">My Slides</a>
+              <a class="mdl-navigation__link" href="{{ root }}/users/{{ session_user.username }}">My Slides</a>
               <a class="mdl-navigation__link" href="{{ root }}/account_settings">Account Settings</a>
               <a class="mdl-navigation__link" href="{{ root }}/signout">Sign out</a>
             {% else %}

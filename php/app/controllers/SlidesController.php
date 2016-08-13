@@ -28,55 +28,77 @@ class SlidesController {
   }
 
   public function create() {
-    return function ($params) {
-      if (isset($_FILES['slide']['error']) && is_int($_FILES['slide']['error'])) {
-        try {
-          switch ($_FILES['slide']['error']) {
-            case UPLOAD_ERR_OK: // OK
-              break;
-            case UPLOAD_ERR_NO_FILE:   // ファイル未選択
-              throw new RuntimeException('ファイルが選択されていません');
-            case UPLOAD_ERR_INI_SIZE:  // php.ini定義の最大サイズ超過
-            case UPLOAD_ERR_FORM_SIZE: // フォーム定義の最大サイズ超過
-              throw new RuntimeException('ファイルサイズが大きすぎます');
-            default:
-              throw new RuntimeException('その他のエラーが発生しました');
-          }
-
-          // TODO: $_FILES['upfile']['type']の値はブラウザ側で偽装可能なので、MIMEタイプを自前でチェックする必要がある
-          if ($_FILES['slide']['type'] != 'application/pdf') {
-            throw new RuntimeException('画像形式が未対応です');
-          }
-
-          $upload_dir = __DIR__ . "/../../db/slides/";
-          $path = sprintf($upload_dir . "%s.%s", sha1_file($_FILES['slide']['tmp_name']), 'pdf');
-
-          $tmp = explode('/', $_SERVER['SCRIPT_NAME']);
-          array_pop($tmp);
-          $p = implode('/', $tmp);
-          $abs_path = 'http://' . $_SERVER['HTTP_HOST'] . $p . '/db/slides/' .
-           sha1_file($_FILES['slide']['tmp_name']) . '.pdf';
-          $result = move_uploaded_file($_FILES['slide']['tmp_name'], $path);
-
-          if (!$result) {
-            throw new RuntimeException('ファイル保存時にエラーが発生しました');
-          }
-
-          chmod($path, 0644);
-
-          // スライドのメタデータ登録処理
-          $title = array_shift($params);
-          $description = array_shift($params);
-          $user_id = array_shift($params);
-
-          $slide = new Slide($user_id, $title, $description, $abs_path);
-          $slide->save();
-
-          header('Location: ./' . $slide->id);
-          exit;
-        } catch (Exception $e) {
-          // TODO: 例外処理を書く
+    return function (array $params) {
+      try {
+        // $_FILES内の変数の異常時
+        if (!isset($_FILES['slide']['error']) || !is_int($_FILES['slide']['error'])) {
+          throw new RuntimeException("ファイルアップロードに失敗しました");
         }
+
+        switch ($_FILES['slide']['error']) {
+          case UPLOAD_ERR_OK: // OK
+            break;
+          case UPLOAD_ERR_NO_FILE:   // ファイル未選択
+            throw new RuntimeException('ファイルが選択されていません');
+          case UPLOAD_ERR_INI_SIZE:  // php.ini定義の最大サイズ超過
+          case UPLOAD_ERR_FORM_SIZE: // フォーム定義の最大サイズ超過
+            throw new RuntimeException('ファイルサイズが大きすぎます');
+          default:
+            throw new RuntimeException('その他のエラーが発生しました');
+        }
+        // TODO: $_FILES['upfile']['type']の値はブラウザ側で偽装可能なので、MIMEタイプを自前でチェックする必要がある
+        if ($_FILES['slide']['type'] != 'application/pdf') {
+          throw new RuntimeException('画像形式が未対応です');
+        }
+
+        $filename = time() . sha1_file($_FILES['slide']['tmp_name']); // ファイル名の衝突を防ぐ為、エポックタイムを前に足す
+        $root_path;
+        // 本当はホスト名の自動判定は危険なのでやめた方がいい
+        // note: http://blog.a-way-out.net/blog/2015/11/06/host-header-injection/
+        if (isset($_SERVER['SERVER_ADDR'])) {
+          $pattern = "/^\/~[a-z_][a-z0-9_]{0,30}\//";  // /~username/とマッチするか
+          if (preg_match($pattern, $_SERVER['REQUEST_URI'], $matches)) {
+            $root_path = 'http://' . $_SERVER['SERVER_ADDR'] . $matches[0];
+          } else {
+            // マッチしない場合はuser_dir環境化ではないとして、hostnameをルートにする
+            $root_path = 'http://' . $_SERVER['SERVER_ADDR'] . '/';
+          }
+        } else {
+          // 処理が思いつかないので取り敢えず例外を出しておく
+          throw new RuntimeException('その他のエラーが発生しました');
+        }
+
+        // スライドファイルの保存
+        $upload_dst = __DIR__ . "/../../db/slides/";
+        $file_inner_path = sprintf($upload_dst . "%s.%s", $filename, 'pdf');
+        $result = move_uploaded_file($_FILES['slide']['tmp_name'], $file_inner_path);
+        if (!$result) {
+          throw new RuntimeException('ファイル保存時にエラーが発生しました');
+        }
+        chmod($file_inner_path, 0644);
+        $file_path = $root_path . 'db/slides/' . $filename . '.pdf';
+
+        // サムネイルの保存
+        $create_dst = __DIR__ . "/../../db/thumbs/";
+        $thumb_inner_path = sprintf($create_dst . "%s.%s", $filename, 'png');
+        $command = "convert ${file_inner_path}[0] ${thumb_inner_path}";
+        exec($command);
+        chmod($thumb_inner_path, 0644);
+        $thumb_path = $root_path . 'db/thumbs/' . $filename . '.png';
+
+        // スライドデータの保存処理
+        $title = array_shift($params);
+        $description = array_shift($params);
+        $user_id = array_shift($params);
+
+        $slide = new Slide($user_id, $title, $description, $file_path, $thumb_path);
+        $slide->save();
+
+        header('Location: ./' . $slide->id);
+      } catch (Exception $e) {
+        // TODO: flash messageに例外のメッセージを表示させる
+        // TODO: フォームの値入力時のものに戻す
+        header('Location: ../upload');
       }
     };
   }

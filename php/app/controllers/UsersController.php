@@ -4,6 +4,7 @@ namespace SlideViewShare\controllers;
 require_once __DIR__ . "/../helpers/functions.php";
 require_once dirname(__FILE__) . "/../models/User.php";
 use SlideViewShare\models\User as User;
+use SlideViewShare\models\Slide as Slide;
 
 class UsersController {
 
@@ -13,6 +14,7 @@ class UsersController {
   public function show() {
     return function ($username) {
       $user = User::find($username);
+      $slides = Slide::findAllBy($user->id);
 
       // セッション処理
       session_name('SLIDEVIEWSHARESESSID');
@@ -22,7 +24,8 @@ class UsersController {
         $session_user = User::find($_SESSION['username']);
       }
 
-      return renderResponse('show.tpl.html', array('session_user' => $session_user, 'user' => $user));
+      return renderResponse('show.tpl.html',
+       array('session_user' => $session_user, 'user' => $user, 'slides' => $slides));
     };
   }
 

@@ -65,6 +65,27 @@ class DataManager {
 
   /**
    * @param String $table_name
+   * @param Array $value_tuple
+   * @return Array
+   */
+  public static function findAll($table_name, array $value_tuple) {
+    $file = self::getFile($table_name, "r");
+    $table = self::convertToTable($file);
+    $key = array_shift($value_tuple);
+    $value = array_shift($value_tuple);
+
+    $rows = array();
+    foreach ($table as $row) {
+      if ($row[$key] == $value) {
+        $rows[] = $row;
+      }
+    }
+
+    return $rows;
+  }
+
+  /**
+   * @param String $table_name
    * @return Array | null
    */
   public static function all($table_name) {
