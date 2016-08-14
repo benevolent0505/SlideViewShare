@@ -46,6 +46,9 @@ $router = new Router($routing_map);
 $request = new Request($_SERVER, $_REQUEST);
 $response = $router->match($request);
 
+// Timezoneの設定 (面倒なのでAsia/Tokyoオンリー)
+date_default_timezone_set('Asia/Tokyo');
+
 $controller = $response->controller;
 $method = $response->controller_method;
 
