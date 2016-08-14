@@ -35,4 +35,5 @@ document.getElementById('post-comment-button').addEventListener('click', () => {
 
 document.getElementById('cancel-button').addEventListener('click', () => {
   document.getElementById('post_comment').value = '';
+  document.getElementById('post-comment-button').disabled = true;
 });
