@@ -43,6 +43,22 @@ class Slide {
   }
 
   /**
+   * @param Array $value_tuple (ex array('id' => $slide_id))
+   * @return Slide | null
+   */
+  public static function findBy(array $value_tuple) {
+    $value_arr =  DataManager::find('slides', $value_tuple);
+    if ($value_arr != null) {
+      $slide = new Slide($value_arr['user_id'], $value_arr['title'], $value_arr['description'], $value_arr['path'], $value_arr['thumb_path']);
+      $slide->id = $value_arr['id'];
+
+      return $slide;
+    }
+
+    return null;
+  }
+
+  /**
    * @param String $user_id
    * @return Array
    */
