@@ -60,6 +60,15 @@
         <button id="post-comment-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" disabled>Comment</button>
       </form>
     </div>
+
+    <ul class="mdl-list comment-list">
+
+      {% for comment in comments|reverse %}
+        <li class="mdl-list__item">
+          {{ include('./templates/comment_card.tpl.html') }}
+        </li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
 

@@ -6,6 +6,7 @@ require_once dirname(__FILE__) . "/../models/User.php";
 require_once dirname(__FILE__) . "/../models/Slide.php";
 use SlideViewShare\models\User as User;
 use SlideViewShare\models\Slide as Slide;
+use SlideViewShare\models\Comment as Comment;
 
 class SlidesController {
 
@@ -13,6 +14,7 @@ class SlidesController {
     return function ($slide_id) {
       $slide = Slide::find($slide_id);
       $presenter = User::findBy(array('id', $slide->user_id));
+      $comments = Comment::findAllBy(array('slide_id', $slide_id));
 
       // セッション処理
       session_name('SLIDEVIEWSHARESESSID');
@@ -23,7 +25,7 @@ class SlidesController {
       }
 
       return renderResponse('show_slide.tpl.html', array('session_user' => $session_user,
-       'slide' => $slide, 'presenter' => $presenter));
+       'slide' => $slide, 'presenter' => $presenter, 'comments' => $comments));
     };
   }
 

@@ -2,7 +2,9 @@
 namespace SlideViewShare\models;
 
 require_once __DIR__ . "/../libs/data_manager.php";
+require_once dirname(__FILE__) . "/../models/User.php";
 use SlideViewShare\libs\DataManager as DataManager;
+use SlideViewShare\models\User as User;
 
 class Comment {
 
@@ -33,6 +35,14 @@ class Comment {
     $this->id = DataManager::getLastId('comments') + 1;
     $write_data = array($this->id, $this->user_id, $this->slide_id, $this->content, $this->created_at);
     $this->file->save($write_data);
+  }
+
+  public function getUsername() {
+    if ($this->user_id == 0) {
+      return 'Anonymous';
+    } else {
+      return User::findBy(array('id', $this->user_id))->username;
+    }
   }
 
   /**
