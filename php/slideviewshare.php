@@ -38,6 +38,9 @@ $routing_map[] = array(
 $routing_map[] = array(
   'GET', '/users/:username', array('UsersController', 'show')
 );
+$routing_map[] = array(
+  'POST', '/comments/create', array('CommentsController', 'create')
+);
 
 $router = new Router($routing_map);
 $request = new Request($_SERVER, $_REQUEST);
