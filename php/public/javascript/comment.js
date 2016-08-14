@@ -31,6 +31,9 @@ document.getElementById('post-comment-button').addEventListener('click', () => {
   xhr.open('POST', "../comments/create", true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.send("user_id="+userId+"&slide_id="+slideId+"&content="+encodeURIComponent(commentContent));
+
+  document.getElementById('post_comment').value = '';
+  document.getElementById('post-comment-button').disabled = true;
 });
 
 document.getElementById('cancel-button').addEventListener('click', () => {
