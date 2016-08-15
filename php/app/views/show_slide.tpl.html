@@ -74,5 +74,10 @@
 
 {% endblock %}
 {% block body_script %}
+  <script defer>
+    {% if session_user %}
+      const SESSION_USER_NAME = "{{ session_user.username }}";
+    {% endif %}
+  </script>
   <script defer src="{{ root }}/../public/javascript/comment.js"></script>
 {% endblock %}
