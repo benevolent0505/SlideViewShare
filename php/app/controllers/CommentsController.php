@@ -37,6 +37,14 @@ class CommentsController {
       $comment = new Comment($user_id, $slide_id, $content, time());
       $comment->save();
 
+      $user = User::findBy(array('id', $user_id));
+      $username = $user_id == 0 ? 'Anonymous' : $user->username;
+      echo json_encode(array(
+        'id' => $comment->id,
+        'username' => $username,
+        'content' => $comment->content,
+        'created_at' => $comment->created_at
+      ));
       exit;
     };
   }

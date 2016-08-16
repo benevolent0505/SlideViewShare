@@ -61,7 +61,7 @@
       </form>
     </div>
 
-    <ul class="mdl-list comment-list">
+    <ul class="mdl-list comment-list" id="comment-list">
 
       {% for comment in comments|reverse %}
         <li class="mdl-list__item">
@@ -74,10 +74,5 @@
 
 {% endblock %}
 {% block body_script %}
-  <script defer>
-    {% if session_user %}
-      const SESSION_USER_NAME = "{{ session_user.username }}";
-    {% endif %}
-  </script>
   <script defer src="{{ root }}/../public/javascript/comment.js"></script>
 {% endblock %}

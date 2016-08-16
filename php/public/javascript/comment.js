@@ -22,8 +22,39 @@ document.getElementById('post-comment-button').addEventListener('click', () => {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
       if (xhr.status == 200 || xhr.status == 304) {
-        let data = xhr.responseText; // responseXML もあり
-        console.log( 'COMPLETE! :' + data);
+        let data = JSON.parse(xhr.responseText);
+
+        const COMMENT_LIST = document.getElementById('comment-list');
+        let li = document.createElement('li');
+        li.classList.add('mdl-list__item');
+
+        let cardDiv = document.createElement('div');
+        cardDiv.classList.add('mdl-card');
+        cardDiv.classList.add('mdl-shadow--2dp');
+
+        let titleDiv = document.createElement('div');
+        titleDiv.classList.add('mdl-card__title');
+        titleDiv.classList.add('mdl-card--border');
+
+        let paragraph = document.createElement('p');
+        let created_at = moment(data.created_at);  // TODO: 書式の指定をちゃんとする
+        if (isAnonymous) {
+          paragraph.textContent = 'Anonymous, ' + created_at.toString();
+        } else {
+          paragraph.innerHTML =
+            '<a href="../users/' + data.username + '">' + data.username + '</a>, ' +  created_at.toString();
+        }
+        titleDiv.appendChild(paragraph);
+
+        cardDiv.appendChild(titleDiv);
+
+        let textDiv = document.createElement('div');
+        textDiv.classList.add('mdl-card__supporting-text');
+        textDiv.textContent = data.content;
+        cardDiv.appendChild(textDiv);
+
+        li.appendChild(cardDiv);
+        COMMENT_LIST.insertBefore(li, COMMENT_LIST.firstChild);
       }
     }
   };
