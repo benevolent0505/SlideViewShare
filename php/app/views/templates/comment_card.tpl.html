@@ -1,0 +1,15 @@
+<div class="mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-card--border">
+    <p>
+      {% if comment.user_id == 0 %}
+        Anonymous
+      {% else %}
+        <a href="../users/{{ comment.getUsername }}">{{ comment.getUsername }}</a>
+      {% endif %}
+      , {{ comment.created_at|date() }}
+    </p>
+  </div>
+  <div class="mdl-card__supporting-text">
+    {{ comment.content }}
+  </div>
+</div>

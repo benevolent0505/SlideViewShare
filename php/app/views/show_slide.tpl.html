@@ -41,19 +41,38 @@
       <form onsubmit="return false;">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
           <textarea class="mdl-textfield__input" type="text" rows= "2" name="post_comment" id="post_comment" ></textarea>
-          <label class="mdl-textfield__label" for="post_comment">Commnet ...</label>
+          <label class="mdl-textfield__label" for="post_comment">Comment...</label>
         </div>
 
-        <br>
+        <br />
+
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="anonymous-check">
+          <input type="checkbox" id="anonymous-check" class="mdl-checkbox__input" />
+          <span class="mdl-checkbox__label">Comment as Anonymous</span>
+        </label>
+
+        <br />
+
+        <input type="hidden" id="user_id" name="user_id" value="{{ session_user ? session_user.id : 0 }}" />
+        <input type="hidden" id="slide_id" name="slide_id" value="{{ slide.id }}" />
 
         <button id="cancel-button" class="mdl-button mdl-js-button mdl-button--raised">Cancel</button>
         <button id="post-comment-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" disabled>Comment</button>
       </form>
     </div>
+
+    <ul class="mdl-list comment-list" id="comment-list">
+
+      {% for comment in comments|reverse %}
+        <li class="mdl-list__item">
+          {{ include('./templates/comment_card.tpl.html') }}
+        </li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
-{% block body_script %}
-  <script src="{{ root }}/../public/javascript/comment.js"></script>
-{% endblock %}
 
+{% endblock %}
+{% block body_script %}
+  <script defer src="{{ root }}/../public/javascript/comment.js"></script>
 {% endblock %}
