@@ -1,0 +1,49 @@
+{% extends "./templates/base.tpl.html" %}
+{% block title %}Questions{% endblock %}
+
+{% block content %}
+<h1>Question</h1>
+<p>Please answer some questions about upload slides.</p>
+
+<form action="./question/answer" method="post">
+  <p>Q1. Which user's slide is the best?</p>
+  <div class="mdl-textfield mdl-js-textfield">
+    <select class="mdl-textfield__input" name="slide">
+      {% for slide in slides %}
+        <option value="{{ slide.id }}">{{ slide.title }}</option>
+      {% endfor %}
+    </select>
+    <label class="mdl-textfield__label" for="slide">Slide</label>
+  </div>
+
+  <br />
+
+  <p>Q2. What is the good point of selected slide?</p>
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="design">
+      <input type="checkbox" id="design" name="design" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Desgin</span>
+    </label>
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="content">
+      <input type="checkbox" id="content" name="content" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Content</span>
+    </label>
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="user">
+      <input type="checkbox" id="user" name="user" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">User</span>
+    </label>
+
+  <br />
+
+  <p>Q3. Please write other opinion.</p>
+  <div class="mdl-textfield mdl-js-textfield">
+    <textarea class="mdl-textfield__input" type="text" rows= "5" name="opinion" id="opinion"></textarea>
+    <label class="mdl-textfield__label" for="opinion"></label>
+  </div>
+
+  <br />
+
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+    Submit Answer
+  </button>
+</form>
+{% endblock %}
