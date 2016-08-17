@@ -89,7 +89,7 @@ class Slide {
 
     if ($table !=null) {
       foreach ($table as $s) {
-        $slide = new Slide($s['user_id'], $s['title'], $s['description'], $s['path']);
+        $slide = new Slide($s['user_id'], $s['title'], $s['description'], $s['path'], $s['thumb_path']);
         $slide->id = $s['id'];
 
         $slides[] = $slide;

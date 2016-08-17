@@ -15,6 +15,20 @@
     {% endblock %}
   </head>
   <body>
+    <style>
+      a { text-decoration: none;}
+      a:hover { text-decoration: none;}
+
+      .page-content {
+        margin-bottom: 100px;
+      }
+
+      footer {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+      }
+    </style>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
@@ -42,6 +56,17 @@
         <div class="page-content">
           {% block content %}{% endblock %}
         </div>
+
+        <footer class="mdl-mini-footer">
+          <div class="mdl-mini-footer__left-section">
+            <div class="mdl-logo">SlideViewShare</div>
+            <ul class="mdl-mini-footer__link-list">
+              <li><a href="{{ root }}/">Top</a></li>
+              <li><a href="{{ root }}/about">About</a></li>
+              <li><a href="{{ root }}/question">Question</a></li>
+            </ul>
+          </div>
+        </footer>
       </main>
     </div>
 

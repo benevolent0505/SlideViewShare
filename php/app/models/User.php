@@ -59,6 +59,27 @@ class User {
     return null;
   }
 
+  /**
+   * @return User[] | null
+   */
+  public static function all() {
+    $value_arr = DataManager::all('users');
+
+    $users = array();
+    if (isset($value_arr)) {
+      foreach ($value_arr as $row) {
+        $user = new User($row['username'], $row['password'], false);
+        $user->id = $row['id'];
+
+        $users[] = $user;
+      }
+
+      return $users;
+    }
+
+    return null;
+  }
+
   public function destroy() {
     return DataManager::destroy('users', array('id', $this->id));
   }

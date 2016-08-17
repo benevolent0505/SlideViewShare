@@ -27,6 +27,15 @@ $routing_map[] = array(
   'GET', '/upload', array('SlidesController', 'upload')
 );
 $routing_map[] = array(
+  'GET', '/question', array('QuestionsController', 'show_page')
+);
+$routing_map[] = array(
+  'POST', '/question/answer', array('QuestionsController', 'answer')
+);
+$routing_map[] = array(
+  'GET', '/question/show', array('QuestionsController', 'show')
+);
+$routing_map[] = array(
   'POST', '/slides/create', array('SlidesController', 'create')
 );
 $routing_map[] = array(
